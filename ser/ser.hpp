@@ -96,6 +96,10 @@ private:
         std::string id = j["id"];
         std::string Group_id  = j["Group_id"];
         redisAsyncContext redis;
+        if(!redis.Ifexit("Groups", Group_id))
+        {
+            return -1;
+        }
         std::string get_owenr = redis.HashGet("Group_info",Group_id);
         nlohmann::json j1 = nlohmann::json::parse(get_owenr);
         std::string owner = j1["group_owner"];
@@ -392,6 +396,7 @@ private:
                             break;
                         case JOINGROUP:
                         {   
+                            std::cout << "JOINGROUP" << std::endl;
                             int dest=Group_fd(rec_quest);
                             s_user.S_JoinGroup(curfd,rec_quest,dest);
                             break;

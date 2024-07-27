@@ -237,7 +237,7 @@ void S_User::S_FindB(int fd,std::string str)
 void S_User::S_EXIT(int fd,std::string str)
 {
     std::cout << "\033[41;32m 客户端" << fd << " \033[0m退出 " << std::endl;
-    //close(fd);
+    
 }
 
 void S_User::S_QUIT(int fd,std::string str)
@@ -853,7 +853,7 @@ void S_User::S_JoinGroup(int fd,std::string str,int dest)
     std::string Group_id = js["Group_id"];
     std::cout << id << "正在申请加入群聊" << std::endl;
     redisAsyncContext redis;
-    if(!redis.Ifexit("Groups",Group_id))
+    if(!redis.Ifexit("Groups",Group_id)||dest==-1)
     {
         std::cout << "群聊不存在" << std::endl;
         Sen s;
