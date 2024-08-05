@@ -1,7 +1,7 @@
 #include "../head/head.hpp"
 #include "../head/define.hpp"
-#include "../cil/User.hpp"
-#include "../cil/prich.hpp"
+#include "../cli/User.hpp"
+#include "../cli/prich.hpp"
 #include <boost/mpl/identity.hpp>
 #include <mutex>
 

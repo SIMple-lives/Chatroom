@@ -152,7 +152,7 @@ void Users::Login(int fd,int port,std::string &ip)
         std::cout << "密码错误" << std::endl;
         //system("clear");
         system("echo \"IF FIND\" | figlet | boxes | lolcat");
-        std::cout << "(y/n)" std::endl;
+        std::cout << "(y/n)" << std::endl;
         std::string  ok;
         std::cin>>ok;
         if(ok=="y")
