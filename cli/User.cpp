@@ -1,6 +1,6 @@
 #include "../head/head.hpp"
 #include "../head/define.hpp"
-#include "../cil/file.hpp"
+#include "../cli/file.hpp"
 #include <netinet/in.h>
 #include <unistd.h>
 
@@ -152,9 +152,10 @@ void Users::Login(int fd,int port,std::string &ip)
         std::cout << "密码错误" << std::endl;
         //system("clear");
         system("echo \"IF FIND\" | figlet | boxes | lolcat");
-        int ok;
+        std::cout << "(y/n)" std::endl;
+        std::string  ok;
         std::cin>>ok;
-        if(ok)
+        if(ok=="y")
         {
             Find(fd,id);
         }
