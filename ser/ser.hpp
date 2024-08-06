@@ -285,6 +285,8 @@ private:
             temp.data.fd = curfd;
           
             // 从epoll中删除当前文件描述符
+            //确保将当次的请求处理完毕，否则将会将业务逻辑与epoll事件循环混杂在一起，导致逻辑混乱
+            //并且json解析会出错，导致程序崩溃
             if (epoll_ctl(m_efd, EPOLL_CTL_DEL, curfd, &temp) == -1) 
             {
                 perror("Epoll_ctl-DEL failed");
