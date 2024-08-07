@@ -151,8 +151,6 @@ public:
 
 private:
 
-    
-
     std::string getCurrentTime() 
     {
         auto now = std::chrono::system_clock::now();

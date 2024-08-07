@@ -122,65 +122,65 @@ public:
         }
     }
 private:
-void receiveMessages() 
-{
-        while (!stop_thread) 
-        {
-            char buffer[1024];
-            ssize_t bytes_received = recv(m_socket_fd, buffer, sizeof(buffer) - 1, 0);
-            if (bytes_received > 0) 
-            {
-                buffer[bytes_received] = '\0';
-                std::unique_lock<std::mutex> lock(mutex);
-                messages.push(std::string(buffer));
-                lock.unlock();
-                cond_var.notify_one();
-            }
-            else if (bytes_received == 0) 
-            {
-                std::cerr << "Server closed the connection" << std::endl;
-                stop_thread = true;
-            } 
-            else 
-            {
-                perror("recv failed");
-                stop_thread = true;
-            }
-        }
-    }
+// void receiveMessages() 
+// {
+//         while (!stop_thread) 
+//         {
+//             char buffer[1024];
+//             ssize_t bytes_received = recv(m_socket_fd, buffer, sizeof(buffer) - 1, 0);
+//             if (bytes_received > 0) 
+//             {
+//                 buffer[bytes_received] = '\0';
+//                 std::unique_lock<std::mutex> lock(mutex);
+//                 messages.push(std::string(buffer));
+//                 lock.unlock();
+//                 cond_var.notify_one();
+//             }
+//             else if (bytes_received == 0) 
+//             {
+//                 std::cerr << "Server closed the connection" << std::endl;
+//                 stop_thread = true;
+//             } 
+//             else 
+//             {
+//                 perror("recv failed");
+//                 stop_thread = true;
+//             }
+//         }
+//     }
 
-    void processMessages() 
-    {
-        std::unique_lock<std::mutex> lock(mutex);
-        while (!messages.empty()) 
-        {
-            std::string message = messages.front();
-            messages.pop();
-            lock.unlock();
+//     void processMessages() 
+//     {
+//         std::unique_lock<std::mutex> lock(mutex);
+//         while (!messages.empty()) 
+//         {
+//             std::string message = messages.front();
+//             messages.pop();
+//             lock.unlock();
 
-            // Process the message
-            try {
-                nlohmann::json j = nlohmann::json::parse(message);
-                std::string request = j[REQUEST];
-                if (request == "MESSAGE") 
-                {
-                    std::string sender = j["sender"];
-                    std::string content = j["content"];
-                    std::cout << "Message from " << sender << ": " << content << std::endl;
-                } 
-                else 
-                {
-                    // Handle other types of messages
-                }
-            } 
-            catch (const std::exception& e) 
-            {
-                std::cerr << "Failed to parse message: " << e.what() << std::endl;
-            }
+//             // Process the message
+//             try {
+//                 nlohmann::json j = nlohmann::json::parse(message);
+//                 std::string request = j[REQUEST];
+//                 if (request == "MESSAGE") 
+//                 {
+//                     std::string sender = j["sender"];
+//                     std::string content = j["content"];
+//                     std::cout << "Message from " << sender << ": " << content << std::endl;
+//                 } 
+//                 else 
+//                 {
+//                     // Handle other types of messages
+//                 }
+//             } 
+//             catch (const std::exception& e) 
+//             {
+//                 std::cerr << "Failed to parse message: " << e.what() << std::endl;
+//             }
 
-            lock.lock();
-        }
-    }
+//             lock.lock();
+//         }
+//     }
 
 private:
     Users m_users;
@@ -190,9 +190,9 @@ private:
     int port;
     std::string ip;
 
-    std::thread receive_thread;
-    std::atomic<bool> stop_thread;
-    std::mutex mutex;
-    std::condition_variable cond_var;
-    std::queue<std::string> messages;
+    // std::thread receive_thread;
+    // std::atomic<bool> stop_thread;
+    // std::mutex mutex;
+    // std::condition_variable cond_var;
+    // std::queue<std::string> messages;
 };

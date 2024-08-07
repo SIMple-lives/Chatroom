@@ -1,4 +1,4 @@
-#include "../cil/prich.hpp"
+#include "../cli/prich.hpp"
 #include "../head/define.hpp"
 
 bool isIllegalSequence(const std::string& sequence)

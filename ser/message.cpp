@@ -52,9 +52,7 @@ std::string get_Records(std::string &first,std::string &second)
 }
 void Msg::run(std::string &message)
 {
-    //int fd = m_dest;
     redisAsyncContext redis;
-    //std::cout << "dsadjlasjd" << std::endl;
     std::string friend_source = redis.HashGet("id_name", id_s);
     std::string friend_dest = redis.HashGet("id_name", id_d);
     std::cout << friend_source << std::endl;
@@ -83,11 +81,6 @@ void Msg::run(std::string &message)
             s.send_cil(this->m_source, j.dump());
             return ;
         }
-        //std::vector<std::string> offline;
-        //offline = redis.Lrange(friend_source+"offline", 0, -1);
-        //this->send_off(offline);
-        //while(1)
-        //{
         std::cout << "接收到 " <<friend_source << " 发送给 " << friend_dest << " 的消息 " << message << std::endl;
         std::string send = friend_source +message;
         nlohmann::json j = {
@@ -105,8 +98,6 @@ void Msg::run(std::string &message)
             sql.insertMultipleChats(records + "Message", messages);
             redis.Ltrim(records+"Message",1, 0);
         }
-        //std::cout << j.dump() << "    kashdkjaws" << std::endl;
-        // std::cout << id_d << "               kashdkashdkj" << std::endl;
         std::string status;
         if (redis.Ifexit("online", id_d)) 
         {
@@ -184,38 +175,6 @@ void Msg::run(std::string &message)
                 redis.Zadd(id_d+ "chat",1,id_s);
             }
         }
-        //  while (true) 
-        //  {
-        //     int len = r.recv_cil(this->m_source, message);
-        //     if (len > 0) 
-        //     {
-        //         std::cout << "接收发送消息" << std::endl;
-        //         std::cout << friend_source << " 发送给 " << friend_dest << " 的消息 " << message << std::endl;
-        //         // Handle sending message to destination here
-        //     } 
-        //     else if (len == -1) 
-        //     {
-        //         if (errno == EAGAIN || errno == EWOULDBLOCK) 
-        //         {
-        //             // No data available now, continue the loop to retry
-        //             continue;
-        //         } 
-        //         else 
-        //         {
-        //             std::cerr << "Error receiving data: " << strerror(errno) << std::endl;
-        //             break;
-        //         }
-        //     } 
-        //     else 
-        //     {
-        //         std::cerr << "Client disconnected or error occurred: " << strerror(errno) << std::endl;
-        //         break;
-        //     }
-        // }
-
-        // std::cerr << "File descriptor is no longer valid: " << this->m_source << std::endl;
-        // close(this->m_source);
-    
 }
 
 void Msg::run_Group(std::string &message,std::string &id)
