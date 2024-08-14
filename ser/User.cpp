@@ -297,6 +297,7 @@ void S_User::S_AddFriend(int fd,std::string str)
                 };
                 std::string json_str = json.dump();
             bool ret=redis.HashSet(friend_id+"0", id,json_str);
+            redis.Zadd(friend_id+"F", 0,id);
             if(ret)
             {
                  std::cout << "Data inserted into Redis successfully" << std::endl;
@@ -715,19 +716,22 @@ void S_User::S_Refresh(int fd,std::string str)
     std::vector<std::string> offline;
     std::vector<std::string> Goffline;
     std::vector<std::string> Sign;
+    std::vector<std::string> friendm;
     // offline = redis.Lrange(source_name+"offline",0,-1);
     std::cout << "正在刷新获取消息" << std::endl;
     offline = redis.Zrange(id+"chat",0,-1);
     Goffline = redis.Zrange(id+"Gchat",0,-1);
     Sign = redis.Zrange(id+"Sign",0,-1);
+    friendm=redis.Zrange(id+"F",0,-1);
     std::cout << "skld" << std::endl;
     int length = redis.Llen(id+"file_info1");
     std::cout << "文件数量为" << length << std::endl;
     std::vector<std::string> sign;
     std::vector<std::string> Gsign;
     std::vector<std::string> SSign;
+    std::vector<std::string> FSign;
     std::cout << "已获取到消息 " << std::endl;
-    if(offline.size()==0 && Goffline.size()==0 &&Sign.size()==0&&length==0)
+    if(offline.size()==0 && Goffline.size()==0 &&Sign.size()==0&&length==0&&friendm.size()==0)
     {
         Sen s;
         std::cout << "没有通知消息" << std::endl;
@@ -781,16 +785,24 @@ void S_User::S_Refresh(int fd,std::string str)
             
         }
     }
+    for(int i=0;i<friendm.size();i++)
+    {
+        std::string send = friendm[i];
+        std::string message = send + "发送了好友申请" ;
+        SSign.push_back(message);
+    }
     redis.Zclear(id+"Sign");
     redis.Ltrim(id+"file_info1",1,0);
     redis.Zclear(id+"chat");
     redis.Zclear(id+"Gchat");
+    redis.Zclear(id+"F");
     Sen s;
     s.send_ok(fd,SUCCESS);
     nlohmann::json send_sign = {{"send",sign},
     {"Gsend",Gsign},
     {"Ssend",SSign},
-    {"Length",length}
+    {"Length",length},
+    {"Fr",FSign}
     };
     // for(int i = 0;i < sign.size();i++)
     // {
