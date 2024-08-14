@@ -19,12 +19,12 @@ include_directories(
 
 # Add the executable for cli
 add_executable(cli
-    ${PROJECT_SOURCE_DIR}/cil/cil.cpp
-    ${PROJECT_SOURCE_DIR}/cil/menu.cpp
-    ${PROJECT_SOURCE_DIR}/cil/User.cpp
-    ${PROJECT_SOURCE_DIR}/cil/user_work.cpp
-    ${PROJECT_SOURCE_DIR}/cil/prich.cpp
-    ${PROJECT_SOURCE_DIR}/cil/file.cpp
+    ${PROJECT_SOURCE_DIR}/cli/cli.cpp
+    ${PROJECT_SOURCE_DIR}/cli/menu.cpp
+    ${PROJECT_SOURCE_DIR}/cli/User.cpp
+    ${PROJECT_SOURCE_DIR}/cli/user_work.cpp
+    ${PROJECT_SOURCE_DIR}/cli/prich.cpp
+    ${PROJECT_SOURCE_DIR}/cli/file.cpp
 )
 
 # Link libraries for cli
