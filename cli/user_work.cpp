@@ -496,6 +496,7 @@ void User_work::Refresh()
         std::vector<std::string> msg = js["send"];
         std::vector<std::string> Gmsg = js["Gsend"];
         std::vector<std::string> Smsg = js["Ssend"];
+        std::vector<std::string> Fmsg = js["Fr"];
         int length = js["Length"];
         if(length != 0)
         {
@@ -510,6 +511,10 @@ void User_work::Refresh()
             std::cout << i << std::endl;
         }
         for(auto i:Smsg)
+        {
+            std::cout << i << std::endl;
+        }
+        for(auto i:Fmsg)
         {
             std::cout << i << std::endl;
         }

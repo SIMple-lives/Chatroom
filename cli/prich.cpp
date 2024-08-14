@@ -54,10 +54,10 @@ void Prich::run()
                     {
                         break; // End of message
                     }
-                    else if (c == ' ')
-                    {
-                        userInput += '+'; // Convert space to '+'
-                    }
+                    // else if (c == ' ')
+                    // {
+                    //     userInput += '+'; // Convert space to '+'
+                    // }
                     else if (c == '\x1B') // 退出按键
                     {
                         std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
@@ -101,7 +101,7 @@ void Prich::run()
                         continue;
                     }
                     std::cout << "Your : " << getCurrentTime() << " :" << userInput << std::endl;
-                    bool allPlus = std::all_of(userInput.begin(), userInput.end(), [](char c) { return c == '+'; });
+                    bool allPlus = std::all_of(userInput.begin(), userInput.end(), [](char c) { return c == ' '; });
                     if (allPlus)
                     {
                         std::cout << "\033[31mDon't allow input all spaces!\033[0m" << std::endl;

@@ -100,9 +100,25 @@ std::string getPasswordFromConsole()
             break;
         if (ch == '\n' || ch == '\r')
             break;
-        password += ch;
-        std::cout << '*';
-        std::cout.flush();
+
+        if (ch == '\b' || ch == 127)  // 处理Backspace键
+        {
+            if (!password.empty())
+            {
+                // 删除password中的最后一个字符
+                password.pop_back();
+
+                // 在控制台上移除最后一个'*'
+                std::cout << "\b \b"; // 将光标移到左边并覆盖最后一个'*'
+                std::cout.flush();
+            }
+        }
+        else
+        {
+            password += ch;
+            std::cout << '*';
+            std::cout.flush();
+        }
     }
 
     // 恢复终端属性
