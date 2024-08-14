@@ -717,26 +717,39 @@ void S_User::S_Refresh(int fd,std::string str)
     std::vector<std::string> Goffline;
     std::vector<std::string> Sign;
     std::vector<std::string> friendm;
+    std::vector<std::string> GM;
     // offline = redis.Lrange(source_name+"offline",0,-1);
     std::cout << "正在刷新获取消息" << std::endl;
     offline = redis.Zrange(id+"chat",0,-1);
     Goffline = redis.Zrange(id+"Gchat",0,-1);
     Sign = redis.Zrange(id+"Sign",0,-1);
     friendm=redis.Zrange(id+"F",0,-1);
+    GM=redis.Zrange(id+"o",0,-1);
     std::cout << "skld" << std::endl;
     int length = redis.Llen(id+"file_info1");
     std::cout << "文件数量为" << length << std::endl;
+    std::cout << "群聊申请" << GM.size()<< std::endl;
     std::vector<std::string> sign;
     std::vector<std::string> Gsign;
     std::vector<std::string> SSign;
     std::vector<std::string> FSign;
+    std::vector<std::string> Fa;
     std::cout << "已获取到消息 " << std::endl;
-    if(offline.size()==0 && Goffline.size()==0 &&Sign.size()==0&&length==0&&friendm.size()==0)
+    if(offline.size()==0 && Goffline.size()==0 &&Sign.size()==0&&length==0&&friendm.size()==0&&GM.size()==0)
     {
         Sen s;
         std::cout << "没有通知消息" << std::endl;
         s.send_ok(fd,NOSIGN);
         return ;
+    }
+    for(int i=0;i<GM.size();i++)
+    {
+        std::string status;
+        std::string send = GM[i];
+        std::cout << GM[i] << std::endl;
+        std::string message = GM[i]+"有群处理" ;
+        Fa.push_back(message);
+
     }
     for(int i = 0;i < offline.size();i++)
     {
@@ -796,13 +809,15 @@ void S_User::S_Refresh(int fd,std::string str)
     redis.Zclear(id+"chat");
     redis.Zclear(id+"Gchat");
     redis.Zclear(id+"F");
+    redis.Zclear(id+"o");
     Sen s;
     s.send_ok(fd,SUCCESS);
     nlohmann::json send_sign = {{"send",sign},
     {"Gsend",Gsign},
     {"Ssend",SSign},
     {"Length",length},
-    {"Fr",FSign}
+    {"Fr",FSign},
+    {"FO",Fa}
     };
     // for(int i = 0;i < sign.size();i++)
     // {
@@ -865,7 +880,7 @@ void S_User::S_JoinGroup(int fd,std::string str,int dest)
     std::string Group_id = js["Group_id"];
     std::cout << id << "正在申请加入群聊" << std::endl;
     redisAsyncContext redis;
-    if(!redis.Ifexit("Groups",Group_id)||dest==-1)
+    if(!redis.Ifexit("Groups",Group_id))
     {
         std::cout << "群聊不存在" << std::endl;
         Sen s;
@@ -899,6 +914,7 @@ void S_User::S_JoinGroup(int fd,std::string str,int dest)
             {"group_id",Group_id}
         };
         redis.HashSet(owener+"group",id,js2.dump());
+        redis.Zadd(owener+"o",id,Group_id);
         //std::string send = "你管理的群聊群聊" + Group_id + "有申请加入" ;
         Sen s;
         s.send_ok(fd,SUCCESS);

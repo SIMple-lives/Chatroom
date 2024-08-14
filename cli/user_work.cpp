@@ -485,7 +485,7 @@ void User_work::Refresh()
     status = r.recv_ok(this->m_fd);
     if(status == NOSIGN)
     {
-        // std::cout << "没有消息" << std::endl;
+        
     }
     else if(status == SUCCESS)
     {
@@ -497,6 +497,7 @@ void User_work::Refresh()
         std::vector<std::string> Gmsg = js["Gsend"];
         std::vector<std::string> Smsg = js["Ssend"];
         std::vector<std::string> Fmsg = js["Fr"];
+        std::vector<std::string> F = js["FO"];
         int length = js["Length"];
         if(length != 0)
         {
@@ -515,6 +516,10 @@ void User_work::Refresh()
             std::cout << i << std::endl;
         }
         for(auto i:Fmsg)
+        {
+            std::cout << i << std::endl;
+        }
+        for(auto i:F)
         {
             std::cout << i << std::endl;
         }
