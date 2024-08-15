@@ -200,13 +200,6 @@ void User_work::UnBlockFriend(std::string  &friend_id)
     }
 }
 
-// void Creat_Group(std::string id,int fd);
-// void Join_Group(std::string id,int fd);
-// void Quit_Group(std::string id,int fd);
-// void Chat_Group(std::string id,int fd);
-// void List_Group(std::string id,int fd);
-// void Member_Group(std::string id,int fd);
-// void Dele_Group(std::string id,int fd);
 void User_work::GroupChat()
 {
     std::string ch;
@@ -855,15 +848,6 @@ void User_work::List_Group(std::string id,int fd)
             std::cout << join[i]<< std::endl;
             std::cout << j_owners[i] << std::endl;
         }
-        // if(nojoin.size()!=0)
-        // {
-        //     system("echo \"NOJOIN\" | figlet | boxes -d c | lolcat");
-        // }
-        // for(int i=0;i<nojoin.size();i++)
-        // {
-        //     std::cout << nojoin[i] << std::endl;
-        //     std::cout << no_owners[i] << std::endl;
-        // }
     }
 }
 
@@ -985,18 +969,6 @@ void User_work::Manage_Group(std::string id,int fd)
     {
     
     }
-    // if(operation == 1)
-    // {
-    //     operation = DELESOMEONE;
-    // }
-    // else if(operation == 2)
-    // {
-        
-    // }
-    // else 
-    // {
-    //     operation = NOSPEAKSOMEONE;
-    // }
     nlohmann::json Manage_Group_request = {
         {"id",id},
         {REQUEST,ok},
